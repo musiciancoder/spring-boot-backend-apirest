@@ -51,6 +51,8 @@ public class ClienteRestController {
 		
 	}
 	
+	
+	//Editar cliente
 	@PutMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.CREATED) 
 	public Cliente update(@RequestBody Cliente cliente, @PathVariable Long id) {
@@ -63,9 +65,11 @@ public class ClienteRestController {
 		return clienteService.save(clienteActual);
 	}
 	
+	
+	//Borrar cliente
 	@DeleteMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT) //corresponde a estado 204
-	public void delete(@RequestBody Cliente cliente, @PathVariable Long id) {
+	public void delete(@PathVariable Long id) {
 		clienteService.delete(id);
 	}
 

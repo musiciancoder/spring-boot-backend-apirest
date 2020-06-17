@@ -90,15 +90,41 @@ public class ClienteRestController {
 
 	// Editar cliente
 	@PutMapping("/clientes/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente update(@RequestBody Cliente cliente, @PathVariable Long id) {
+	public ResponseEntity<?> update(@RequestBody Cliente cliente, @PathVariable Long id) {
 
+		
 		Cliente clienteActual = clienteService.findById(id);
+		
+		Cliente clienteUpdated= null;
+		Map<String, Object> response = new HashMap<>(); // clave, valor
+		
+		if (clienteActual == null) {
+			response.put("mensaje", "Error: no se pudo editar el cliente ID: ".concat(id.toString().concat(" no existe en la BBDD")));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		try {
+		
 		clienteActual.setApellido(cliente.getApellido());
 		clienteActual.setNombre(cliente.getNombre());
 		clienteActual.setEmail(cliente.getEmail());
+		clienteActual.setCreateAt(cliente.getCreateAt());
 
-		return clienteService.save(clienteActual);
+		clienteUpdated = clienteService.save(clienteActual);
+		
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BBDD");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
+		
+		response.put("mensaje", "El cliente ha sido actualizado con éxito!");
+		response.put("cliente", clienteUpdated);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+
+		
+		
 	}
 
 	// Borrar cliente

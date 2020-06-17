@@ -66,12 +66,25 @@ public class ClienteRestController {
 
 	// Crear un cliente
 	@PostMapping("/clientes")
-	@ResponseStatus(HttpStatus.CREATED) // por defecto si no se pone nada es HttpStatus.OK, esto se pone para señalar
-										// que ha sido creado (no es obligatorio)
-	public Cliente create(@RequestBody Cliente cliente) { // RequestBody pide un cliente en el cuerpo de la peticion
-															// frontend, que viene en formato json
+	public ResponseEntity<?> create(@RequestBody Cliente cliente) { // RequestBody pide un cliente en el cuerpo de la
+																	// peticion
+		// frontend, que viene en formato json
 
-		return clienteService.save(cliente);
+		Cliente clienteNew = null;
+		Map<String, Object> response = new HashMap<>(); // clave, valor
+
+		try {
+			clienteNew = clienteService.save(cliente);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BBDD");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+		}
+
+		response.put("mensaje", "El cliente ha sido creado con éxito!");
+		response.put("cliente", clienteNew);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 
 	}
 

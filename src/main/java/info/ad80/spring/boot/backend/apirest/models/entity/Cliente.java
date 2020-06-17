@@ -22,9 +22,10 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Long id;
 	
-	// @Column //cuando el campo de clase se llama exactamente igual a la BBDD se puede omitir @Column
+	@Column(nullable=false) //cuando el campo de clase se llama exactamente igual a la BBDD se puede omitir @Column
 	private String nombre;
 	private String apellido;
+	@Column(nullable=false, unique=true)
 	private String email;
 	
 	@Column(name="create_at")

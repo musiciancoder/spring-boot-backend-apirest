@@ -76,14 +76,14 @@ public class ClienteRestController {
 		try {
 			clienteNew = clienteService.save(cliente);
 		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al realizar la consulta en la BBDD");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			response.put("mensaje", "Error al crear cliente en la BBDD");  //esto lo recibe el frontend como json.mensaje
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage())); //esto lo recibe el frontend
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
 
-		response.put("mensaje", "El cliente ha sido creado con éxito!");
-		response.put("cliente", clienteNew);
+		response.put("mensaje", "El cliente ha sido creado con éxito!");  //esto lo recibe el frontend como json.mensaje
+		response.put("cliente", clienteNew);  //esto lo recibe el frontend como json.cliente
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 
 	}

@@ -12,6 +12,13 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+//import javax.validation.constraints.*;
+
+import org.hibernate.validator.constraints.*;
+
+
+
+
 
 
 @Entity
@@ -22,9 +29,16 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotEmpty
+	//@Size(min=4, max=12)
 	@Column(nullable=false) //cuando el campo de clase se llama exactamente igual a la BBDD se puede omitir @Column
 	private String nombre;
+	
+	@NotEmpty
 	private String apellido;
+	
+	@NotEmpty
+	@Email
 	@Column(nullable=false, unique=true)
 	private String email;
 	

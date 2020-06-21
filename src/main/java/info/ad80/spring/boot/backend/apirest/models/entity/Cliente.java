@@ -25,17 +25,17 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty
-	@Size(min=4, max=12)
+	@NotEmpty(message="No puede ser vacío") //este es el menensaje llamado con el metodo getDefaultMessage() en metodo create() del controlador ClienteRestController
+	@Size(min=4, max=12, message="El tamaño debe estar entre 4 y 12 caracteres")
 	@Column(nullable=false) //cuando el campo de clase se llama exactamente igual a la BBDD se puede omitir @Column
 	private String nombre;
 	
-	@NotEmpty
+	@NotEmpty(message="No puede ser vacío") //este es el menensaje llamado con el metodo getDefaultMessage() en metodo create() del controlador ClienteRestController
 	private String apellido;
 	@Column(nullable=false, unique=true)
 	
-	@NotEmpty
-	@Email
+	@NotEmpty(message="No puede ser vacío") //este es el menensaje llamado con el metodo getDefaultMessage() en metodo create() del controlador ClienteRestController
+	@Email(message="No es una dirección de correo correcta")
 	private String email;
 	
 	@Column(name="create_at")

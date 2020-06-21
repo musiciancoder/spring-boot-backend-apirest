@@ -95,7 +95,7 @@ public class ClienteRestController {
 					.collect(Collectors.toList());
 					
 			
-			response.put("errors", errors);
+			response.put("errors", errors); // en metodo create y update en form.component.ts esto es llamado como err.error.errors
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			
 		}
@@ -103,8 +103,8 @@ public class ClienteRestController {
 		try {
 			clienteNew = clienteService.save(cliente);
 		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al realizar la consulta en la BBDD");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			response.put("mensaje", "Error al realizar la consulta en la BBDD"); //llamado en el frontend en metod create() en la clase de servicio
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage())); //llamado en el frontend en metod create() en la clase de servicio
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}

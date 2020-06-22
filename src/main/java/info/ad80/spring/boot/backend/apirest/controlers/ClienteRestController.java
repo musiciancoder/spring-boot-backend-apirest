@@ -45,8 +45,8 @@ public class ClienteRestController {
 
 	}
 	
-	//PAGINABLE
-	@GetMapping("/clientes/page/{page")
+	//PAGINABLE     EL JSON QUE ENTREGA EN REST ES CONTENT Y LUEGO EL ARRAY DE CLIENTES, POR LO QUE SE DEBE MODIFICAR EL FRONTEND PARA INCLUIR CONTENT
+	@GetMapping("/clientes/page/{page}")
 	public Page<Cliente> index(@PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 4);
 		return clienteService.findAll(pageable);

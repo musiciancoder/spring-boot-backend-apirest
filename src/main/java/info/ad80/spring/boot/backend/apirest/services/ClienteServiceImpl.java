@@ -22,11 +22,11 @@ public class ClienteServiceImpl implements IClienteService{
 	@Override
 	@Transactional(readOnly= true)
 	public List<Cliente> findAll() {
-		// TODO Auto-generated method stub
 		return (List<Cliente>) clienteDao.findAll();
 	}
 	
 	@Override
+	@Transactional(readOnly= true)
 	public Page<Cliente> findAll(Pageable pageable) {
 		
 		return clienteDao.findAll(pageable);

@@ -43,6 +43,7 @@ public class Cliente implements Serializable {
 	@Temporal(TemporalType.DATE) //para transformar el Date de java a la fecha date de SQL
 	private Date createAt;
 	
+	private String foto;
 
 	
 	public Long getId() {
@@ -85,6 +86,20 @@ public class Cliente implements Serializable {
 		this.createAt = createAt;
 	}
 	
+	
+	
+	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+
+
+
 	/**
 	 * 
 	 */

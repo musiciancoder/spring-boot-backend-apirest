@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -224,9 +225,9 @@ public class ClienteRestController {
 		Cliente cliente = clienteService.findById(id);
 
 		if (!archivo.isEmpty()) {
-			String nombreArchivo = archivo.getOriginalFilename(); // nombreArchivo es el nombre del archivo en la app,
+			String nombreArchivo = UUID.randomUUID().toString() + " " + archivo.getOriginalFilename().replace(" ", "_"); // nombreArchivo es el nombre del archivo en la app,
 																	// con getOriginalFileName() obtenemos el nombre que
-																	// le da el usuario
+																	// le da el usuario. UUID.randomUUID().toString() son caracteres al azar
 			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath(); // rutaArchivo es la ruta
 																								// donde se guarda en la
 																								// aplicacion
@@ -245,7 +246,7 @@ public class ClienteRestController {
 			clienteService.save(cliente);
 
 			response.put("cliente", cliente);
-			response.put("mensaje", "Has desarrollado correctamente la imagen: " + nombreArchivo);
+			response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);
 		}
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);

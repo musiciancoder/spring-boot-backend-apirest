@@ -1,5 +1,6 @@
 package info.ad80.spring.boot.backend.apirest.controlers;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,7 +13,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.hibernate.result.NoMoreReturnsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -151,6 +151,7 @@ public class ClienteRestController {
 		Cliente clienteActual = clienteService.findById(id);
 
 		Cliente clienteUpdated = null;
+		
 		Map<String, Object> response = new HashMap<>(); // clave, valor
 
 		if (result.hasErrors()) {
@@ -206,6 +207,19 @@ public class ClienteRestController {
 		Map<String, Object> response = new HashMap<>(); // clave, valor
 
 		try {
+			
+			Cliente cliente = clienteService.findById(id);
+			String nombreFotoAnterior = cliente.getFoto();
+			
+			if (nombreFotoAnterior != null && nombreFotoAnterior.length()>0) {
+				Path rutaFotoAnterior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
+				File archivoFotoAnterior = rutaFotoAnterior.toFile();
+				if (archivoFotoAnterior.exists()&&archivoFotoAnterior.canRead()) {
+					archivoFotoAnterior.delete();
+					
+				}
+				
+			}
 
 			clienteService.delete(id);
 		} catch (DataAccessException e) {
@@ -239,6 +253,18 @@ public class ClienteRestController {
 				response.put("mensaje", "Error al subir la imagen del cliente " + nombreArchivo);
 				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			String nombreFotoAnterior = cliente.getFoto();
+			
+			if (nombreFotoAnterior != null && nombreFotoAnterior.length()>0) {
+				Path rutaFotoAnterior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
+				File archivoFotoAnterior = rutaFotoAnterior.toFile();
+				if (archivoFotoAnterior.exists()&&archivoFotoAnterior.canRead()) {
+					archivoFotoAnterior.delete();
+					
+				}
+				
 			}
 
 			cliente.setFoto(nombreArchivo);

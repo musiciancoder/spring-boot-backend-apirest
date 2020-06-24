@@ -2,6 +2,7 @@ package info.ad80.spring.boot.backend.apirest.controlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,13 +12,17 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.management.RuntimeErrorException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -263,8 +268,7 @@ public class ClienteRestController {
 				if (archivoFotoAnterior.exists()&&archivoFotoAnterior.canRead()) {
 					archivoFotoAnterior.delete();
 					
-				}
-				
+				}	
 			}
 
 			cliente.setFoto(nombreArchivo);
@@ -277,4 +281,31 @@ public class ClienteRestController {
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
+	
+	
+	//PARA DESCARGAR IMAGEN EN EL NAVEGADOR (se prueba con http://localhost:8080/api/uploads/img/nombreCodificadoDeLaFoto
+	@GetMapping("/uploads/img/{nombreFoto:.+}")
+	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
+		
+		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+		Resource recurso = null;
+		
+		try {
+			recurso = new UrlResource(rutaArchivo.toUri());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(!recurso.exists()&& !recurso.isReadable()) {
+			throw new RuntimeException("Error; no sepudo cargar la imagen " + nombreFoto);
+		}
+		HttpHeaders cabecera = new HttpHeaders();
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+		
+		
+		return new ResponseEntity<Resource>(recurso,cabecera, HttpStatus.OK);
+		
+	}
+	
 }

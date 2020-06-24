@@ -12,9 +12,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -48,6 +49,8 @@ public class ClienteRestController {
 
 	@Autowired
 	private IClienteService clienteService;
+	
+	private final Logger log = LoggerFactory.getLogger(ClienteRestController.class);
 
 	@GetMapping("/clientes")
 	public List<Cliente> index() {
@@ -237,6 +240,7 @@ public class ClienteRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
+	//SUBIR IMAGEN
 	@PostMapping("/clientes/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
 		Map<String, Object> response = new HashMap<>();
@@ -244,13 +248,14 @@ public class ClienteRestController {
 		Cliente cliente = clienteService.findById(id);
 
 		if (!archivo.isEmpty()) {
-			String nombreArchivo = UUID.randomUUID().toString() + " " + archivo.getOriginalFilename().replace(" ", "_"); // nombreArchivo es el nombre del archivo en la app,
+			String nombreArchivo = UUID.randomUUID().toString()  + archivo.getOriginalFilename().replace(" ", "_"); // nombreArchivo es el nombre del archivo en la app,
 																	// con getOriginalFileName() obtenemos el nombre que
 																	// le da el usuario. UUID.randomUUID().toString() son caracteres al azar
-			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath(); // rutaArchivo es la ruta
-																								// donde se guarda en la
+			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath(); // rutaArchivo es la ruta// donde se guarda en la
 																								// aplicacion
 
+			log.info(rutaArchivo.toString()); //para informar explicitamente la ruta en el log de Spring (en la consola cuando parte la aplicacion)
+			
 			try {
 				Files.copy(archivo.getInputStream(), rutaArchivo);
 			} catch (IOException e) {
@@ -288,6 +293,7 @@ public class ClienteRestController {
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
 		
 		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+		log.info(rutaArchivo.toString()); //para informar explicitamente la ruta
 		Resource recurso = null;
 		
 		try {

@@ -43,6 +43,7 @@ public class Cliente implements Serializable {
 	@Temporal(TemporalType.DATE) //para transformar el Date de java a la fecha date de SQL
 	private Date createAt;
 	
+	
 	private String foto;
 
 	

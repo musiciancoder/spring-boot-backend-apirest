@@ -51,6 +51,7 @@ public class Cliente implements Serializable {
 	
 	private String foto;
 	
+	@NotNull(message="La región no puede ser vacía")
 	//@ManyToOne: muchos clientes tienen una region = una region tiene muchos clientes
 	@ManyToOne(fetch=FetchType.LAZY) 
 	@JoinColumn(name="region_id")

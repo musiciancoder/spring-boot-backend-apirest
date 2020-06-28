@@ -21,7 +21,7 @@ public class Role implements Serializable{
 	private Long id;
 	
 	@Column(unique=true, length=20) //@Column es para dar configuracion extra a la tabla
-	private String name;
+	private String nombre;
 
 	/*
 	 // SI QUISIERAMOS TENER LOS ROLES CON RESPECTO A USUARIOS, NO SE HIZO PORQUE EN ESTA APP NO ES NECESARIO, SOLO QUEREMOS OBTENER LOS ROLES DE CADA USUARIO, NO AL REVES
@@ -41,14 +41,14 @@ public class Role implements Serializable{
 
 
 
-	public String getName() {
-		return name;
+	public String getNombre() {
+		return nombre;
 	}
 
 
 
 	public void setName(String name) {
-		this.name = name;
+		this.nombre = name;
 	}
 
 

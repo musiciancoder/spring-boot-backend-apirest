@@ -29,6 +29,7 @@ public class UsuarioService implements UserDetailsService{
 	
 	@Override
 	@Transactional(readOnly = true)
+	//TODO DONDE ESTA OCUPANDO ESTE METODO?
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		Usuario usuario = usuarioDao.findByUsername(username);
@@ -39,10 +40,10 @@ public class UsuarioService implements UserDetailsService{
 		}
 		
 		List<GrantedAuthority> authorities = usuario.getRoles()
-				.stream()
-				.map(role -> new SimpleGrantedAuthority(role.getNombre()))
+				.stream()  //esto significa que los roles son pasados en forma secuencial (síncrono)
+				.map(role -> new SimpleGrantedAuthority(role.getNombre())) //pasa el nombre del rol a SimpleGrantedAuthority
 				.peek(authority -> logger.info("Role: " + authority.getAuthority())) //para que muestre en consola cada rol
-				.collect(Collectors.toList());
+				.collect(Collectors.toList());//convierte todos los SimpleGrantedAuthority a una lista.
 	
 		
 		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities); //user hereda de userdetails

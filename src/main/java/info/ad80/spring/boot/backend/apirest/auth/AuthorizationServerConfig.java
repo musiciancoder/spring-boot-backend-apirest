@@ -35,10 +35,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 
 	@Override
-	//CONFIGURACION PARA LOS CLIENTES
+	//CONFIGURACION PARA LOS CLIENTES. En Postman se prueba con POST http://localhost:8080/oauth/token
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("angularapp")
-		.secret(passwordEncoder.encode("12345"))
+		clients.inMemory().withClient("angularapp") //En postman en Authorization esto se pasa como Username 
+		.secret(passwordEncoder.encode("12345")) //En postman en Authorization esto se pasa como Password
 		.scopes("read","write")
 		.authorizedGrantTypes("password","refresh_token")
 		.accessTokenValiditySeconds(3600)

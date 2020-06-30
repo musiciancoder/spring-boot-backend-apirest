@@ -4,7 +4,7 @@ package info.ad80.spring.boot.backend.apirest.auth;
 //Esta es la clase para firmar el token
 public class JwtConfig {
 	
-	public static final String LLAVE_SECRETA="alguna.clave.secreta.123456678";
+	public static final String LLAVE_SECRETA="alguna.clave.secreta.12345678";
 	
 	
 	public static final String RSA_PRIVADA="-----BEGIN RSA PRIVATE KEY-----\r\n" + 

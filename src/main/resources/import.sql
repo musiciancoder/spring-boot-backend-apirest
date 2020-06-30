@@ -1,14 +1,13 @@
 /* Populate tabla clientes */
 
 INSERT INTO regiones (id, nombre) VALUES (1, 'Sudamérica');
-INSERT INTO regiones (id, nombre) VALUES (2, 'Centroamerica');
-INSERT INTO regiones (id, nombre) VALUES (3, 'Norteamerica');
+INSERT INTO regiones (id, nombre) VALUES (2, 'Centroamérica');
+INSERT INTO regiones (id, nombre) VALUES (3, 'Norteamérica');
 INSERT INTO regiones (id, nombre) VALUES (4, 'Europa');
 INSERT INTO regiones (id, nombre) VALUES (5, 'Asia');
 INSERT INTO regiones (id, nombre) VALUES (6, 'Africa');
 INSERT INTO regiones (id, nombre) VALUES (7, 'Oceanía');
-INSERT INTO regiones (id, nombre) VALUES (8, 'Antártica');
-
+INSERT INTO regiones (id, nombre) VALUES (8, 'Antártida');
 
 INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(1, 'Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01');
 INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(2, 'Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02');
@@ -23,12 +22,13 @@ INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(5, '
 INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(6, 'Tornado', 'Roe', 'tornado.roe@gmail.com', '2018-03-05');
 INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(7, 'Jade', 'Doe', 'jane.doe@gmail.com', '2018-03-06');
 
-INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('andres','$2a$10$v2rmlWzrGz6gEPACbOCFEuoeFTTu4.fVIUE..OD.ymfsbhVj4PAvG',1, 'Andres', 'Guzman','profesor@boldadeideas.com');
-INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('admin','$2a$10$Q./odVO80zb9BQZzWye1deSmIVWDdB/Q4Rks.dlVEfOOjrJZtxr/6',1, 'John','Doe','john.doe@boldadeideas.com');
+/* Creamos algunos usuarios con sus roles */
+INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('andres','$2a$10$tAyAR/NkYA41HEZdWjmiQ.lVien0BSmBPEjw94XNULJ786z2Yabo6',1, 'Andres', 'Guzman','profesor@bolsadeideas.com');
+INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('admin','$2a$10$AFNUteiWNdMQZIfV/7H4/u2oUWMHDNMD2bV2o4woFWP9PT2te0lNW',1, 'John', 'Doe','jhon.doe@bolsadeideas.com');
 
 INSERT INTO `roles` (nombre) VALUES ('ROLE_USER');
 INSERT INTO `roles` (nombre) VALUES ('ROLE_ADMIN');
 
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1,1);
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1,2);
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2,1);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 1);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 2);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 1);

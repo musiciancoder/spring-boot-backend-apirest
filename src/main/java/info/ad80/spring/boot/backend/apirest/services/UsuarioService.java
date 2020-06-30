@@ -19,7 +19,7 @@ import info.ad80.spring.boot.backend.apirest.models.dao.IUsuarioDao;
 import info.ad80.spring.boot.backend.apirest.models.entity.Usuario;
 
 @Service
-public class UsuarioService implements UserDetailsService{
+public class UsuarioService implements UserDetailsService, IUsuarioService {
 	
 	private Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 
@@ -50,6 +50,13 @@ public class UsuarioService implements UserDetailsService{
 	
 	
 	
+	}
+
+
+	@Override
+	public Usuario findByUsername(String username) {
+		
+		return usuarioDao.findByUsername(username);
 	}
 	
 

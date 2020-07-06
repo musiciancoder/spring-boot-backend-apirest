@@ -1,15 +1,20 @@
 package info.ad80.spring.boot.backend.apirest.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,6 +39,17 @@ public class Factura implements Serializable{
 	//@JoinComumn(name="cliente_id"); //esto es si queremos customizar el nombre de la llave foranea
 	private Cliente cliente;
 	
+	//Una factura tiene varios items
+	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name="factura_id") //llave foranea que se va a crear en la tabla "facturas_items"
+	private List<ItemFactura> items;
+	
+	
+	
+	public Factura() {
+		items = new ArrayList<>();
+	}
+
 	@PrePersist //antes del fetch de base de datos
 	public void prePersist() {
 		this.createAt = new Date();
@@ -106,9 +122,16 @@ public class Factura implements Serializable{
 
 
 
-	/**
-	 * 
-	 */
+	public List<ItemFactura> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ItemFactura> items) {
+		this.items = items;
+	}
+
+
+
 	private static final long serialVersionUID = 1L;
 
 }

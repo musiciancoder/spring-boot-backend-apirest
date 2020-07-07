@@ -3,9 +3,12 @@ package info.ad80.spring.boot.backend.apirest.models.entity;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +18,12 @@ public class ItemFactura implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private Integer cantidad;
+	
+	@ManyToOne(fetch = FetchType.LAZY) //muchos items para un producto
+	//@JoinColumn(name="producto_id")  //opcional
+	private Producto producto;
 
 	public Long getId() {
 		return id;
@@ -32,11 +40,24 @@ public class ItemFactura implements Serializable {
 	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
 	}
+	
+	public Double getImporte() {
+		return cantidad.doubleValue()*producto.getPrecio();
+		
+	}
 
 	public Double calcularImporte() {
 		return cantidad.doubleValue();
 	}
 	
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 }

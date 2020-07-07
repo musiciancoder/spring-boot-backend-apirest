@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="facturas")
 public class Factura implements Serializable{
@@ -34,11 +36,14 @@ public class Factura implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 	
+	@JsonIgnoreProperties({"facturas","hibernateLazyInitializer","handler"}) //evitar loop infinito
 	//Muchas facturas pertenecen a un cliente
 	@ManyToOne(fetch=FetchType.LAZY)
 	//@JoinComumn(name="cliente_id"); //esto es si queremos customizar el nombre de la llave foranea
 	private Cliente cliente;
 	
+	
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	//Una factura tiene varios items
 	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="factura_id") //llave foranea que se va a crear en la tabla "facturas_items"

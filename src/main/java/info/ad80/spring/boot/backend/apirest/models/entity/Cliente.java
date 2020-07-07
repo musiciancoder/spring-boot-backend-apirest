@@ -59,9 +59,10 @@ public class Cliente implements Serializable {
 	//@ManyToOne: muchos clientes tienen una region = una region tiene muchos clientes
 	@ManyToOne(fetch=FetchType.LAZY) 
 	@JoinColumn(name="region_id")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 	private Region region; //Cliente contiene region
 
+	@JsonIgnoreProperties({"cliente","hibernateLazyInitializer","handler"}) //evitar loop infinito
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="cliente", cascade = CascadeType.ALL) 
 	private List<Factura> facturas;
 	

@@ -1,5 +1,7 @@
 package info.ad80.spring.boot.backend.apirest.controlers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import info.ad80.spring.boot.backend.apirest.models.entity.Factura;
+import info.ad80.spring.boot.backend.apirest.models.entity.Producto;
 import info.ad80.spring.boot.backend.apirest.services.IClienteService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -33,5 +36,11 @@ public class FacturaRestController {
 		clienteService.deleteFacturaById(id);
 
 	}
+	
+	@GetMapping("/facturas/filtrar-productos/{term}")
+	public List <Producto> filtrarProductos(@PathVariable String term){
+		return clienteService.findProductoByNombre(term);
+	}
+	
 
 }

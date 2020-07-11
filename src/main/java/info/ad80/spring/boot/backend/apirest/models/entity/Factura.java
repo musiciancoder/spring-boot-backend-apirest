@@ -36,7 +36,7 @@ public class Factura implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 	
-	@JsonIgnoreProperties({"facturas","hibernateLazyInitializer","handler"}) //evitar loop infinito
+	@JsonIgnoreProperties(value={"facturas","hibernateLazyInitializer","handler"}, allowSetters=true) //evitar loop infinito
 	//Muchas facturas pertenecen a un cliente
 	@ManyToOne(fetch=FetchType.LAZY)
 	//@JoinComumn(name="cliente_id"); //esto es si queremos customizar el nombre de la llave foranea

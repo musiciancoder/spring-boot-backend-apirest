@@ -42,7 +42,7 @@ import info.ad80.spring.boot.backend.apirest.models.entity.Region;
 import info.ad80.spring.boot.backend.apirest.services.IClienteService;
 import info.ad80.spring.boot.backend.apirest.services.IUploadFileService;
 
-@CrossOrigin(origins = { "http://localhost:4200" }) // CORS, para conectar con Angular
+@CrossOrigin(origins = { "http://localhost:4200","*" }) // CORS, para conectar con Angular
 @RestController
 @RequestMapping("/api")
 public class ClienteRestController {
